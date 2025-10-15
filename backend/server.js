@@ -19,7 +19,8 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173", // local dev
-  "https://radhakrishnabandaru8-spec.github.io/skillconnect" // production frontend
+  "https://radhakrishnabandaru8-spec.github.io/skillconnect", // production frontend
+  "https://skillconnect-viht.onrender.com"
 ];
 
 // Middleware

@@ -5,7 +5,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
-const JWT_SECRET = "your_secret_key"; // replace with env variable in production
+
+// ✅ Use environment variable for JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Register
 router.post("/register", async (req, res) => {
@@ -43,6 +45,7 @@ router.post("/login", async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(400).json({ message: "Invalid credentials" });
 
+    // ✅ Use process.env.JWT_SECRET here too
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1d" });
 
     res.status(200).json({ token, user });

@@ -10,8 +10,23 @@ import { fileURLToPath } from "url";
 dotenv.config();
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://<username>.github.io/skillconnect" // production frontend
+];
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // Postman or curl
+    if (!allowedOrigins.includes(origin)) {
+      return callback(new Error(`CORS policy: Origin ${origin} not allowed`), false);
+    }
+    return callback(null, true);
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes
